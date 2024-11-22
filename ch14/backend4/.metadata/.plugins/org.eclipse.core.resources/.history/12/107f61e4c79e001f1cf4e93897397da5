@@ -1,0 +1,8 @@
+package com.example.sns.domain;
+
+import lombok.Data;
+
+@Data
+public class LoginRequestDto {
+	
+}

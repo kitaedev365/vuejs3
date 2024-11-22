@@ -1,0 +1,13 @@
+package com.example.shop.domain;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import lombok.Data;
+
+@Data
+public class RequestCartDto {
+	@JsonManagedReference
+    private UserDto user;
+	@JsonManagedReference
+    private ProductDto product;
+}

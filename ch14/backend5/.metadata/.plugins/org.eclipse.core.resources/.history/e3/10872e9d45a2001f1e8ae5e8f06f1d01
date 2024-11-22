@@ -1,0 +1,16 @@
+package com.example.lms.dto;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class CourseInfoDTO {
+    private Long id;
+    private Long courseId;
+    private String topic;
+    private String details;
+    private Integer durationHours;
+}

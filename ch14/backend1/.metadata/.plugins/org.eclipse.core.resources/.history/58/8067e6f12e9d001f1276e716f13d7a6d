@@ -1,0 +1,18 @@
+package com.example.shop.domain;
+
+
+import com.example.shop.entity.Product;
+import com.example.shop.entity.User;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import lombok.Data;
+
+@Data
+public class CartDto {
+    @JsonManagedReference
+    private UserDto user;
+
+    @JsonBackReference
+    private ProductDto product;
+}

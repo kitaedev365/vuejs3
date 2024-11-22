@@ -1,0 +1,44 @@
+package com.example.sns.entity;
+
+import java.sql.Timestamp;
+
+import org.hibernate.annotations.CreationTimestamp;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import lombok.Data;
+
+@Data
+@Entity
+@Table(name = "comments")
+public class Comment {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @JsonBackReference
+    @ManyToOne
+    @JoinColumn(name = "post_id", nullable = false)
+    private Post post; // 댓글은 반드시 특정 게시물(Post)에 속함
+
+    @JsonBackReference
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user; // 댓글 작성자(User)는 반드시 존재
+
+    @Column(nullable = false)
+    private String content;
+
+    @CreationTimestamp
+    @Column(name = "created_at", updatable = false)
+    private Timestamp createdAt;
+}

@@ -1,0 +1,37 @@
+package com.example.shop.controller;
+
+import com.example.shop.domain.LoginRequestDto;
+import com.example.shop.util.JwtTokenUtil;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class AuthController {
+
+    private final AuthenticationManager authenticationManager;
+    private final JwtTokenUtil jwtTokenUtil;
+
+    // 생성자에 JwtTokenUtil 추가
+    public AuthController(AuthenticationManager authenticationManager, JwtTokenUtil jwtTokenUtil) {
+        this.authenticationManager = authenticationManager;
+        this.jwtTokenUtil = jwtTokenUtil;
+    }
+
+    @PostMapping("/api/auth/login")
+    public String login(@RequestBody LoginRequestDto loginRequest) throws AuthenticationException {
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword())
+        );
+
+        // 인증 성공 후 JWT 생성
+        String token = jwtTokenUtil.generateToken(loginRequest.getUsername());
+
+        // JWT 토큰을 클라이언트에 반환
+        return token;
+    }
+}

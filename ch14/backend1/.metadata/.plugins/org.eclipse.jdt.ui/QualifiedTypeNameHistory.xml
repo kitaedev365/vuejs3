@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+    <fullyQualifiedTypeName name="jakarta.persistence.EnumType"/>
+    <fullyQualifiedTypeName name="java.sql.Timestamp"/>
+    <fullyQualifiedTypeName name="java.util.Optional"/>
+    <fullyQualifiedTypeName name="org.springframework.context.annotation.Role"/>
+    <fullyQualifiedTypeName name="com.example.shop.entity.Role"/>
+    <fullyQualifiedTypeName name="jakarta.persistence.Table"/>
+    <fullyQualifiedTypeName name="jakarta.persistence.Id"/>
+    <fullyQualifiedTypeName name="com.example.shop.domain.OrderDto"/>
+    <fullyQualifiedTypeName name="com.example.shop.entity.Order"/>
+    <fullyQualifiedTypeName name="jakarta.persistence.CascadeType"/>
+    <fullyQualifiedTypeName name="org.springframework.security.core.userdetails.User"/>
+    <fullyQualifiedTypeName name="com.example.shop.entity.User"/>
+    <fullyQualifiedTypeName name="java.util.List"/>
+    <fullyQualifiedTypeName name="lombok.NoArgsConstructor"/>
+    <fullyQualifiedTypeName name="lombok.AllArgsConstructor"/>
+    <fullyQualifiedTypeName name="jakarta.persistence.criteria.Path"/>
+    <fullyQualifiedTypeName name="net.bytebuddy.utility.FileSystem.ForNio2CapableVm.StandardCopyOption"/>
+    <fullyQualifiedTypeName name="net.bytebuddy.utility.FileSystem.ForNio2CapableVm.Files"/>
+    <fullyQualifiedTypeName name="java.nio.file.StandardCopyOption"/>
+    <fullyQualifiedTypeName name="java.nio.file.Files"/>
+</qualifiedTypeNameHistroy>

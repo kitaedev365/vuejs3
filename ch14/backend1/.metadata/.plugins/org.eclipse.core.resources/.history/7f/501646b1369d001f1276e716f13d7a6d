@@ -1,0 +1,146 @@
+package com.example.shop.config;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import com.example.shop.security.JwtAuthenticationFilter;
+
+@Configuration
+@EnableWebSecurity
+public class SecurityConfig {
+
+   
+    //CORS 설정
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.addAllowedOrigin("*"); // 모든 도메인 허용
+        configuration.addAllowedMethod("*"); // 모든 HTTP 메서드 허용
+        configuration.addAllowedHeader("*"); // 모든 헤더 허용
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
+    
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/api/**")
+                        .allowedOrigins("http://localhost:8080") // Vue 앱 주소
+                        .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH");
+            }
+        };
+    }
+    
+    /*
+    // PasswordEncoder 빈 정의
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+    
+    // Security 설정
+    @SuppressWarnings({ "deprecation", "removal" })
+	@Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+            .csrf().disable() // CSRF 비활성화 (개발 중이거나 API 서버인 경우 주로 사용)
+            .authorizeRequests()
+                .requestMatchers("/api/auth/**", "/api/public/**").permitAll() // 인증 필요 없는 경로
+                .anyRequest().authenticated() // 그 외 요청은 인증 필요
+            .and()
+            .formLogin() // 기본 로그인 폼 설정
+                .loginPage("/login") // 로그인 페이지 설정 (커스텀 가능)
+                .permitAll()
+            .and()
+            .logout() // 로그아웃 설정
+                .permitAll();
+
+        return http.build();
+    }  */
+
+    /*
+    private final UserDetailsService userDetailsService;
+
+    public SecurityConfig(UserDetailsService userDetailsService) {
+        this.userDetailsService = userDetailsService;
+    }
+
+    // JWT 필터를 추가하는 메소드
+    @Bean
+    public JwtAuthenticationFilter jwtAuthenticationFilter() {
+        return new JwtAuthenticationFilter();
+    }
+
+    @SuppressWarnings({ "deprecation", "removal" })
+	@Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http.csrf().disable()
+            .authorizeRequests()
+                .requestMatchers("/api/auth/**").permitAll() // 로그인, 회원가입 등 인증 없이 접근 가능
+                .anyRequest().authenticated() // 나머지 요청은 인증 필요
+            .and()
+            .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class); // JWT 필터 추가
+
+        return http.build();
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder(); // 비밀번호 암호화 방식
+    }
+    
+     */
+    
+    
+    private final UserDetailsService userDetailsService;
+
+    public SecurityConfig(UserDetailsService userDetailsService) {
+        this.userDetailsService = userDetailsService;
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
+        AuthenticationManagerBuilder authenticationManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);
+        authenticationManagerBuilder.userDetailsService(userDetailsService)
+            .passwordEncoder(passwordEncoder());
+        return authenticationManagerBuilder.build();
+    }
+
+    @SuppressWarnings("removal")
+	@Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    	http.csrf().disable()
+        .authorizeHttpRequests()
+            .requestMatchers("/api/auth/**", "/api/notices/**", "/api/products/**", "/api/users/register").permitAll()
+            .anyRequest().authenticated();
+
+        return http.build();
+    }
+
+    // JWT 필터 추가 (이미 정의된 경우)
+    public JwtAuthenticationFilter jwtAuthenticationFilter() {
+        return new JwtAuthenticationFilter();
+    }
+}

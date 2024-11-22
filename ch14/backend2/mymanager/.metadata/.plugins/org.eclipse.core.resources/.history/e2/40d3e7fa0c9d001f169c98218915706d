@@ -1,0 +1,49 @@
+package com.example.myproject.controller;
+
+import java.util.List;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.example.myproject.entity.Post;
+import com.example.myproject.service.PostService;
+
+@RestController
+@RequestMapping("/api/posts")
+public class PostController {
+    private final PostService postService;
+
+    public PostController(PostService postService) {
+        this.postService = postService;
+    }
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public Post createPost(@RequestBody Post post) {
+        return postService.createPost(post);
+    }
+
+    @GetMapping("/board/{boardId}")
+    public List<Post> getPostsByBoardId(@PathVariable("boardId") Long boardId) {
+        return postService.getPostsByBoardId(boardId);
+    }
+
+    @PutMapping("/{id}")
+    public Post updatePost(@PathVariable Long id, @RequestBody Post post) {
+        return postService.updatePost(id, post);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deletePost(@PathVariable Long id) {
+        postService.deletePost(id);
+    }
+}

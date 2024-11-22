@@ -1,0 +1,27 @@
+package com.example.sns.config;
+
+import org.springframework.context.annotation.Configuration;
+import org.springframework.messaging.simp.config.MessageBrokerRegistry;
+import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
+import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
+import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
+import org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor;
+import org.springframework.web.socket.server.standard.ServerEndpointExporter;
+
+@Configuration
+@EnableWebSocketMessageBroker
+public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
+
+    @Override
+    public void configureMessageBroker(MessageBrokerRegistry registry) {
+        // 메시지 브로커 구성: "/topic" 경로는 클라이언트로 전달될 메시지의 목적지
+        registry.enableSimpleBroker("/topic");
+        registry.setApplicationDestinationPrefixes("/app"); // 클라이언트가 보내는 메시지의 접두어
+    }
+
+    @Override
+    public void registerStompEndpoints(WebSocketHandlerRegistry registry) {
+        // SockJS 사용하여 "/ws" 엔드포인트로 WebSocket 연결 설정
+        registry.addEndpoint("/ws").withSockJS();
+    }
+}

@@ -1,0 +1,45 @@
+package com.example.cms.service;
+
+import com.example.cms.entity.Notice;
+import com.example.cms.repository.NoticeRepository;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public class NoticeService {
+
+    private final NoticeRepository noticeRepository;
+
+    public NoticeService(NoticeRepository noticeRepository) {
+        this.noticeRepository = noticeRepository;
+    }
+
+    public List<Notice> getAllNotices() {
+        return noticeRepository.findAll();
+    }
+
+    public Notice getNoticeById(Long id) {
+    	Notice notice = noticeRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Notice not found with id " + id));
+        notice.setHits(notice.getHits() + 1); //조회수(hits) 증가
+        noticeRepository.save(notice);
+        return notice;
+    }
+
+    public Notice addNotice(Notice notice) {
+        return noticeRepository.save(notice);
+    }
+
+    public Notice updateNotice(Long id, Notice updatedNotice) {
+        Notice existingNotice = getNoticeById(id);
+        existingNotice.setTitle(updatedNotice.getTitle());
+        existingNotice.setContent(updatedNotice.getContent());
+        existingNotice.setUpdatedAt(updatedNotice.getUpdatedAt());
+        return noticeRepository.save(existingNotice);
+    }
+
+    public void deleteNotice(Long id) {
+        noticeRepository.deleteById(id);
+    }
+}

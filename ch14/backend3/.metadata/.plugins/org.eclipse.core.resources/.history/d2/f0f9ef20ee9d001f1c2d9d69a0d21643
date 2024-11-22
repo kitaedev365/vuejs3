@@ -1,0 +1,83 @@
+package com.example.cms.controller;
+
+import java.util.List;
+
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.example.cms.entity.Notice;
+import com.example.cms.service.NoticeService;
+
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+@RestController
+@RequestMapping("/api/notices")
+public class NoticeController {
+
+    private final NoticeService noticeService;
+
+    public NoticeController(NoticeService noticeService) {
+        this.noticeService = noticeService;
+    }
+
+    @GetMapping
+    public List<Notice> getAllNotices() {
+        return noticeService.getAllNotices();
+    }
+
+    @GetMapping("/{id}")
+    public Notice getNoticeById(
+            @PathVariable("id") Long id, 
+            HttpServletRequest request, 
+            HttpServletResponse response) {
+
+        // 쿠키에서 조회 여부 확인
+        String cookieName = "notice_" + id;
+        boolean isViewed = false;
+
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookieName.equals(cookie.getName())) {
+                    isViewed = true;
+                    break;
+                }
+            }
+        }
+
+        // 조회수가 증가하지 않은 경우만 증가 처리 및 쿠키 추가
+        if (!isViewed) {
+            Notice notice = noticeService.incrementHits(id);  // hits 증가 로직
+            Cookie newCookie = new Cookie(cookieName, "viewed");
+            newCookie.setMaxAge(24 * 60 * 60);  // 쿠키 유효기간: 1일
+            newCookie.setPath("/");  // 모든 경로에서 쿠키 유효
+            response.addCookie(newCookie);
+            return notice;
+        }
+
+        return noticeService.getNoticeByIdWithoutIncrement(id);
+    }
+
+    @PostMapping
+    public Notice addNotice(@RequestBody Notice notice) {
+        return noticeService.addNotice(notice);
+    }
+
+    @PutMapping("/{id}")
+    public Notice updateNotice(@PathVariable("id") Long id, @RequestBody Notice notice) {
+        return noticeService.updateNotice(id, notice);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteNotice(@PathVariable("id") Long id) {
+        noticeService.deleteNotice(id);
+    }
+}

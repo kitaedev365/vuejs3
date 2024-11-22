@@ -1,0 +1,5 @@
+package com.example.cms.domain;
+
+public class RequestGalleryDto {
+
+}

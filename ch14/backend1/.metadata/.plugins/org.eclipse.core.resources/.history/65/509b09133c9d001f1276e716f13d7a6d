@@ -1,0 +1,13 @@
+package com.example.shop.domain;
+
+import com.example.shop.entity.Product;
+import com.example.shop.entity.User;
+
+import lombok.Data;
+
+@Data
+public class ResponseCartDto {
+    private Long id;
+    private Product product;
+    private User user;
+}

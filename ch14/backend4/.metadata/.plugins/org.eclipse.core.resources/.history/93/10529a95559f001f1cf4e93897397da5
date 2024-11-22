@@ -1,0 +1,36 @@
+package com.example.sns.config;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.socket.WebSocketHandler;
+import org.springframework.web.socket.config.annotation.EnableWebSocket;
+import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
+import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
+import org.springframework.web.socket.server.standard.ServerEndpointExporter;
+import org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor;
+
+import com.example.sns.util.ChatHandler;
+
+@Configuration
+@EnableWebSocket
+public class ChatConfig implements WebSocketConfigurer {
+
+    @Override
+    public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
+        // ChatHandler는 WebSocket 요청을 처리하는 핸들러 클래스
+        registry.addHandler(chatHandler(), "/api/chat")
+                .setAllowedOrigins("*") // 모든 도메인에서의 접근 허용
+                .addInterceptors(new HttpSessionHandshakeInterceptor())
+                .withSockJS();  // SockJS를 사용할 경우 필요
+    }
+
+    public WebSocketHandler chatHandler() {
+        return new ChatHandler();
+    }
+
+    // SockJS 지원을 위한 Bean 등록 (옵션)
+    @Bean
+    public ServerEndpointExporter serverEndpointExporter() {
+        return new ServerEndpointExporter();
+    }
+}

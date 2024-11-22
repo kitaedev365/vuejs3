@@ -1,0 +1,72 @@
+package com.example.lms.controller;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.example.lms.dto.ErrorResponseDto;
+import com.example.lms.dto.LoginRequestDto;
+import com.example.lms.dto.LoginResponseDto;
+import com.example.lms.service.UsersService;
+import com.example.lms.util.JwtTokenUtil;
+
+@RestController
+@RequestMapping("/api/auth")
+public class AuthController {
+
+    private static final Logger log = LoggerFactory.getLogger(AuthController.class);
+
+    private final UsersService usersService;
+    
+    @Autowired
+    private JwtTokenUtil jwtTokenUtil;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    public AuthController(UsersService usersService) {
+        this.usersService = usersService;
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody LoginRequestDto loginRequest) {
+        log.info("Received login request for user: {}", loginRequest.getUsername());
+
+        try {
+            // 사용자 인증
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            loginRequest.getUsername(),
+                            loginRequest.getPassword()
+                    )
+            );
+
+            log.info("Authentication successful for user: {}", loginRequest.getUsername());
+
+            // 토큰 생성
+            String token = jwtTokenUtil.generateToken(loginRequest.getUsername());
+
+            log.info("Generated JWT Token: {}", token);
+
+            // JWT 토큰 반환
+            return ResponseEntity.ok(new LoginResponseDto(token));
+        } catch (BadCredentialsException e) {
+            log.error("Authentication failed for user: {}. Error: {}", loginRequest.getUsername(), e.getMessage(), e);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(new ErrorResponseDto("Authentication failed", "Invalid username or password"));
+        } catch (Exception e) {
+            log.error("Authentication failed for user: {}. Error: {}", loginRequest.getUsername(), e.getMessage(), e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ErrorResponseDto("Authentication failed", e.getMessage()));
+        }
+    }
+}

@@ -1,0 +1,25 @@
+package com.example.shop.domain;
+
+import org.springframework.security.core.userdetails.User;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+public class UserDto {
+    private String username;
+    private String password;
+    private String email;
+
+    @JsonCreator
+    public UserDto(User user) {
+        this.username = user.getUsername();
+        this.password = user.getPassword();
+        this.email = user.getEmail();
+    }
+}
