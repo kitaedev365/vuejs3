@@ -1,0 +1,12 @@
+package com.example.demo.entity;
+
+
+@Entity
+@Data
+public class BoardPost {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+   private Long id;
+   private String title;
+   private String content;
+}
