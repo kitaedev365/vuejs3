@@ -1,0 +1,5 @@
+@import "~foundation-sites/scss/foundation";  // Foundation CSS 임포트
+@include foundation-everything;  // Foundation 초기화
+body {
+  padding: 20px;
+}

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>DOM 객체의 선택</title>
+</head>
+<body>
+  <div id="myDiv">Hello World!</div>
+  <div class="myClass">First Div</div>
+  <div class="myClass">Second Div</div>
+  <p class="paragraph">This is a paragraph.</p>
+  <div class="myClass2">Div 1</div>
+  <div class="myClass2">Div 2</div>
+  <script>
+    const element = document.getElementById('myDiv');
+    console.log(element.textContent); // 출력: Hello World!
+    const elements = document.getElementsByClassName('myClass');
+    console.log(elements[0].textContent);  // 출력: First Div
+    console.log(elements[1].textContent);  // 출력: Second Div
+    const element = document.querySelector('.paragraph');
+    console.log(element.textContent);  // 출력: This is a paragraph.
+    const elements = document.querySelectorAll('.myClass2');
+    elements.forEach((element) => {
+      console.log(element.textContent);  // 출력: Div 1, Div 2
+    });
+  </script>
+</body>
+</html>

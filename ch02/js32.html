@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>DOM 객체의 조작</title>
+</head>
+<body>
+<div class="container">
+  <h2>텍스트 조작</h2>
+  <div id="myDiv">Original Text</div>
+  <button id="changeText">Change Text</button>
+  <script>
+    const div = document.getElementById('myDiv');
+    const button = document.getElementById('changeText');
+    button.addEventListener('click', () => {
+      div.textContent = 'Text has been changed!';
+    });
+  </script>
+</div>
+<hr>
+<div class="container">
+  <h2>속성 조작</h2>
+  <img id="myImage" src="image.jpg" alt="Image 1">
+  <button id="changeImage">Change Image</button>
+  <script>
+    const image = document.getElementById('myImage');
+    const button2 = document.getElementById('changeImage');
+
+    button2.addEventListener('click', () => {
+      image.setAttribute('src', 'image2.jpg');
+      image.setAttribute('alt', 'Image 2');
+    });
+  </script>
+</div>
+</body>
+</html>

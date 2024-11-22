@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>DOM 객체의 스타일링</title>
+  <style>
+    .highlight {
+      background-color: yellow;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h2>style 속성 사용</h2>
+  <div id="myDiv1">Styled Text</div>
+  <button id="changeStyle">Change Style</button>
+  <script>
+    const div1 = document.getElementById('myDiv1');
+    const button1 = document.getElementById('changeStyle');
+    button1.addEventListener('click', () => {
+      div1.style.color = 'red';
+      div1.style.fontSize = '20px';
+    });
+  </script>
+</div>
+<hr>
+<div class="container">
+  <h2>classList 사용</h2>
+  <div id="myDiv2">Toggle highlight</div>
+  <button id="toggleClass">Toggle Class</button>
+  <script>
+    const div2 = document.getElementById('myDiv2');
+    const button2 = document.getElementById('toggleClass');
+    button2.addEventListener('click', () => {
+      div2.classList.toggle('highlight');
+    });
+  </script>
+</div>
+</body>
+</html>
