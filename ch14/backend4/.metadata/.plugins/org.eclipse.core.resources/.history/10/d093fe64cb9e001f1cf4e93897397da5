@@ -1,0 +1,5 @@
+package com.example.sns.service;
+
+public class CommentService {
+
+}

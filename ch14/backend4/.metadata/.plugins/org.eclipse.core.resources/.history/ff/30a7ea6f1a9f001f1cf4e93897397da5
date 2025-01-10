@@ -1,0 +1,19 @@
+package com.example.sns.domain;
+
+import lombok.Data;
+
+import java.sql.Timestamp;
+
+@Data
+public class MessageDto {
+
+    private Long id;
+    private Long senderId;
+    private Long receiverId;
+    private String content;
+    private Timestamp sentAt;
+
+    // Optional: Add sender and receiver usernames if needed for client
+    private String senderUsername;
+    private String receiverUsername;
+}

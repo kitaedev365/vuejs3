@@ -1,0 +1,9 @@
+package com.example.shop.domain;
+
+import lombok.Data;
+
+@Data
+public class RequestCartDto {
+    private UserDto user;
+    private ProductDto product;
+}

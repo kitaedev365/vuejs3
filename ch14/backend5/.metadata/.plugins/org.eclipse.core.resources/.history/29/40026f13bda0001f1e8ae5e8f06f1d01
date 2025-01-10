@@ -1,0 +1,37 @@
+package com.example.lms.entity;
+
+import jakarta.persistence.*;
+import lombok.*;
+
+import java.time.LocalDateTime;
+
+@Entity
+@Table(name = "reservations")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class Reservations {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "course_id", referencedColumnName = "id", nullable = false)
+    private Courses course;
+
+    @ManyToOne
+    @JoinColumn(name = "student_id", referencedColumnName = "id", nullable = false)
+    private Users student;
+
+    @Column(name = "reservation_date", nullable = false, updatable = false)
+    private LocalDateTime reservationDate = LocalDateTime.now();
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Status status = Status.RESERVED;
+
+    public enum Status {
+        RESERVED, CONFIRMED, CANCELLED
+    }
+}

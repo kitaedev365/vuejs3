@@ -1,0 +1,43 @@
+package com.example.cms.controller;
+
+import com.example.cms.entity.Notice;
+import com.example.cms.service.NoticeService;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/notices")
+public class NoticeController {
+
+    private final NoticeService noticeService;
+
+    public NoticeController(NoticeService noticeService) {
+        this.noticeService = noticeService;
+    }
+
+    @GetMapping
+    public List<Notice> getAllNotices() {
+        return noticeService.getAllNotices();
+    }
+
+    @GetMapping("/{id}")
+    public Notice getNoticeById(@PathVariable Long id) {
+        return noticeService.getNoticeById(id);
+    }
+
+    @PostMapping
+    public Notice addNotice(@RequestBody Notice notice) {
+        return noticeService.addNotice(notice);
+    }
+
+    @PutMapping("/{id}")
+    public Notice updateNotice(@PathVariable Long id, @RequestBody Notice notice) {
+        return noticeService.updateNotice(id, notice);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteNotice(@PathVariable Long id) {
+        noticeService.deleteNotice(id);
+    }
+}

@@ -1,0 +1,5 @@
+package com.example.myproject.repository;
+
+public interface PostRepository extends JpaRepository<Post, Long> {
+    List<Post> findByBoardId(Long boardId);
+}

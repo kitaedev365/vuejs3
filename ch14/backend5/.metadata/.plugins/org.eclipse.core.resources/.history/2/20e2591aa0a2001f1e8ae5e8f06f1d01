@@ -1,0 +1,68 @@
+package com.example.lms.controller;
+
+import com.example.lms.entity.Enrollments;
+import com.example.lms.service.EnrollmentsService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
+
+@RestController
+@RequestMapping("/api/enrollments")
+@RequiredArgsConstructor
+public class EnrollmentsController {
+    private final EnrollmentsService enrollmentsService;
+
+    // 전체 수강 신청 목록 조회
+    @GetMapping
+    public ResponseEntity<List<Enrollments>> getAllEnrollments() {
+        List<Enrollments> enrollments = enrollmentsService.getAllEnrollments();
+        return ResponseEntity.ok(enrollments);
+    }
+
+    // 수강 신청 상세 정보 조회
+    @GetMapping("/{id}")
+    public ResponseEntity<Enrollments> getEnrollmentById(@PathVariable("id") Long id) {
+        Optional<Enrollments> enrollment = enrollmentsService.getEnrollmentById(id);
+        return enrollment.map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    // 수강 신청 추가
+    @PostMapping
+    public ResponseEntity<Enrollments> createEnrollment(@RequestBody Enrollments enrollment) {
+        Enrollments savedEnrollment = enrollmentsService.createEnrollment(enrollment);
+        return ResponseEntity.ok(savedEnrollment);
+    }
+
+    // 수강 신청 수정
+    @PutMapping("/{id}")
+    public ResponseEntity<Enrollments> updateEnrollment(@PathVariable("id") Long id, @RequestBody Enrollments updatedEnrollment) {
+        Optional<Enrollments> enrollment = enrollmentsService.updateEnrollment(id, updatedEnrollment);
+        return enrollment.map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    // 수강 신청 삭제
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteEnrollment(@PathVariable("id") Long id) {
+        enrollmentsService.deleteEnrollment(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    // course_id로 수강 신청 목록 조회
+    @GetMapping("/course/{courseId}")
+    public ResponseEntity<List<Enrollments>> getEnrollmentsByCourseId(@PathVariable("courseId") Long courseId) {
+        List<Enrollments> enrollments = enrollmentsService.getEnrollmentsByCourseId(courseId);
+        return ResponseEntity.ok(enrollments);
+    }
+
+    // student_id로 수강 신청 목록 조회
+    @GetMapping("/student/{studentId}")
+    public ResponseEntity<List<Enrollments>> getEnrollmentsByStudentId(@PathVariable("studentId") Long studentId) {
+        List<Enrollments> enrollments = enrollmentsService.getEnrollmentsByStudentId(studentId);
+        return ResponseEntity.ok(enrollments);
+    }
+}

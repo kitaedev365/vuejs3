@@ -1,0 +1,71 @@
+<template>
+  <div class="user-profile">
+    <h2>사용자 프로필</h2><hr/>
+    <form @submit.prevent="updateProfile" class="grid-container">
+      <div class="grid-x grid-padding-x">
+        <div class="cell small-12 medium-12">
+          <label for="username">Username</label>
+          <input
+            type="text"
+            v-model="username"
+            id="username"
+            class="input-group-field"
+            required readonly
+          />
+        </div>
+        <div class="cell small-12 medium-12">
+          <label for="email">Email</label>
+          <input
+            type="email"
+            v-model="email"
+            id="email"
+            class="input-group-field"
+            required
+          />
+        </div>
+        <div class="cell small-12">
+          <button type="submit" class="button primary">프로필 변경</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</template>
+
+<script setup>
+import { ref, onMounted } from 'vue';
+import { useUserStore } from '@/store/userStore';  // userStore 가져오기
+import { useAuthStore } from '@/store/authStore';  // authStore 가져오기
+
+const username = ref('');
+const email = ref('');
+const refreshed = ref(false);
+const userStore = useUserStore();
+const authStore = useAuthStore();
+
+onMounted(async () => {
+  const user = authStore.user;
+  if (authStore.isAuthenticated) {
+    username.value = user.username;
+    email.value = user.email;
+  }
+});
+
+// 프로필 업데이트 함수
+const updateProfile = async () => {
+  try {
+    const userId = authStore.userId; // 로그인된 사용자 ID
+    const updatedUserData = { username: username.value, email: email.value };
+    await userStore.updateProfile(userId, updatedUserData);
+    alert('Profile updated successfully');
+  } catch (error) {
+    console.error('Profile update failed:', error);
+    alert('Failed to update profile');
+  }
+};
+</script>
+
+<style scoped>
+.user-profile {
+  padding: 20px;
+}
+</style>

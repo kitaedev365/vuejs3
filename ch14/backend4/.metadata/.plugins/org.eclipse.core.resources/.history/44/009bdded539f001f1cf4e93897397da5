@@ -1,0 +1,35 @@
+package com.example.sns.util;
+
+import org.springframework.web.socket.TextMessage;
+import org.springframework.web.socket.WebSocketSession;
+import org.springframework.web.socket.handler.TextWebSocketHandler;
+
+import com.example.sns.domain.ChatMessage;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import io.jsonwebtoken.io.IOException;
+
+public class ChatHandler extends TextWebSocketHandler {
+
+    private static final ObjectMapper objectMapper = new ObjectMapper();
+
+    @Override
+    public void handleTextMessage(WebSocketSession session, TextMessage message) throws InterruptedException, IOException {
+        // 클라이언트에서 수신한 메시지
+        String payload = message.getPayload();
+        ChatMessage chatMessage = objectMapper.readValue(payload, ChatMessage.class);
+
+        // 메시지를 받은 후, 모든 클라이언트로 전달
+        for (WebSocketSession webSocketSession : session.getAttributes().values()) {
+            if (webSocketSession.isOpen()) {
+                webSocketSession.sendMessage(new TextMessage(objectMapper.writeValueAsString(chatMessage)));
+            }
+        }
+    }
+
+    @Override
+    public void afterConnectionEstablished(WebSocketSession session) throws Exception {
+        // 새로운 WebSocket 연결이 설정된 후 호출
+        System.out.println("New connection established: " + session.getId());
+    }
+}

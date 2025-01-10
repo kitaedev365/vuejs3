@@ -1,0 +1,33 @@
+package com.example.cms.entity;
+
+import jakarta.persistence.*;
+import lombok.Data;
+import java.time.LocalDateTime;
+
+@Data
+@Entity
+@Table(name = "gallery")
+public class Gallery {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "content_id", nullable = true)
+    private Content content;
+
+    @Column(nullable = false)
+    private String filePath;
+
+    @Enumerated(EnumType.STRING)
+    private FileType fileType = FileType.IMAGE;
+
+    @Column(name = "uploaded_at", updatable = false)
+    private LocalDateTime uploadedAt = LocalDateTime.now();
+
+    public enum FileType {
+        IMAGE,
+        VIDEO
+    }
+}

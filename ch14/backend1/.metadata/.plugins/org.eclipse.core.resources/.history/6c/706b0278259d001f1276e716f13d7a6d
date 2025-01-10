@@ -1,0 +1,10 @@
+package com.example.shop.domain;
+
+
+import lombok.Data;
+
+@Data
+public class CartDto {
+    private ProductDto product; // 장바구니에 담긴 상품 (ProductDto)
+    private UserDto user;       // 장바구니를 만든 사용자 (UserDto)
+}

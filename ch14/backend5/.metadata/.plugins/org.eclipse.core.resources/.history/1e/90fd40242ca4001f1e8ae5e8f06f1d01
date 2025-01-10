@@ -1,0 +1,56 @@
+package com.example.lms.service;
+
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import com.example.lms.entity.CourseInfo;
+import com.example.lms.repository.CourseInfoRepository;
+
+import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
+
+@Service
+@RequiredArgsConstructor
+public class CourseInfoService {
+
+    private final CourseInfoRepository courseInfoRepository;
+
+    public List<CourseInfo> getAllCourseInfos() {
+        return courseInfoRepository.findAll();
+    }
+
+    public List<CourseInfo> getCourseInfosByCourseId(Long courseId) {
+        return courseInfoRepository.findByCourseId(courseId);
+    }
+
+    public CourseInfo getCourseInfoById(Long id) {
+        return courseInfoRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("CourseInfo not found with id: " + id));
+    }
+
+    public CourseInfo saveCourseInfo(CourseInfo courseInfo) {
+        return courseInfoRepository.save(courseInfo);
+    }
+
+    public List<CourseInfo> saveCourseInfos(List<CourseInfo> courseInfos) {
+        return courseInfoRepository.saveAll(courseInfos);
+    }
+
+    public CourseInfo updateCourseInfo(Long id, CourseInfo updatedCourseInfo) {
+        CourseInfo courseInfo = getCourseInfoById(id);
+        courseInfo.setTopic(updatedCourseInfo.getTopic());
+        courseInfo.setDetails(updatedCourseInfo.getDetails());
+        courseInfo.setDurationHours(updatedCourseInfo.getDurationHours());
+        return courseInfoRepository.save(courseInfo);
+    }
+
+    public void deleteCourseInfo(Long id) {
+        courseInfoRepository.deleteById(id);
+    }
+
+    public void deleteCourseInfosByCourseId(Long courseId) {
+        List<CourseInfo> courseInfos = getCourseInfosByCourseId(courseId);
+        courseInfoRepository.deleteAll(courseInfos);
+    }
+}

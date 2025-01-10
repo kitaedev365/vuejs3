@@ -1,0 +1,17 @@
+package com.example.shop.domain;
+
+import com.example.shop.entity.Product;
+import com.example.shop.entity.User;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class ResponseCartDto {
+    private Long id;
+    private Product product;
+    private User user;
+}

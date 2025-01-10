@@ -1,0 +1,5 @@
+package com.example.sns.config;
+
+public class WebSocketConfig {
+
+}

@@ -1,0 +1,68 @@
+package com.example.lms.service;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.stereotype.Service;
+
+import com.example.lms.dto.EnrollmentsDTO;
+import com.example.lms.entity.Enrollments;
+import com.example.lms.repository.CoursesRepository;
+import com.example.lms.repository.EnrollmentsRepository;
+
+import lombok.RequiredArgsConstructor;
+
+@Service
+@RequiredArgsConstructor
+public class EnrollmentsService {
+	
+    private final EnrollmentsRepository enrollmentsRepository;
+    private final CoursesRepository coursesRepository;
+
+    // 목록 조회
+    public List<Enrollments> getAllEnrollments() {
+        return enrollmentsRepository.findAll();
+    }
+
+    // 상세 정보 조회
+    public Optional<Enrollments> getEnrollmentById(Long id) {
+        return enrollmentsRepository.findById(id);
+    }
+
+    // 수강 신청 추가
+    public Enrollments createEnrollment(Enrollments enrollment) {
+        return enrollmentsRepository.save(enrollment);
+    }
+
+    // 수강 신청 수정
+    public Optional<Enrollments> updateEnrollment(Long id, Enrollments updatedEnrollment) {
+        return enrollmentsRepository.findById(id).map(enrollment -> {
+            enrollment.setCourse(updatedEnrollment.getCourse());
+            enrollment.setStudent(updatedEnrollment.getStudent());
+            enrollment.setStatus(updatedEnrollment.getStatus());
+            return enrollment;
+        });
+    }
+
+    // 수강 신청 삭제
+    public void deleteEnrollment(Long id) {
+        enrollmentsRepository.deleteById(id);
+    }
+
+    // course_id로 수강 신청 목록 조회
+    public List<Enrollments> getEnrollmentsByCourseId(Long courseId) {
+        return enrollmentsRepository.findByCourseId(courseId);
+    }
+
+    // student_id로 수강 신청 목록 조회
+    public List<Enrollments> getEnrollmentsByStudentId(Long studentId) {
+        return enrollmentsRepository.findByStudentId(studentId);
+    }
+    
+    /*
+    // student_id로 수강 신청 목록 조회
+    public List<EnrollmentsDTO> getEnrollmentsByCourseIdAndStudentId(Long studentId) {
+
+    }
+    */
+}
