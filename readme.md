@@ -15,11 +15,25 @@ Node, jsp/Servlet, Springframework, Spring Boot, FastAPI 등의 프로젝트 경
 
 12.3의 jsp/Servlet 프로젝트는 ecilpse에서 [File] -> [import] 메뉴를 활용하여 프로젝트를 가져옵니다.
 
-12.4의 Springframework 프로젝트는 sts3(sts3.9.18)을 다운로드 받아야 하며, Java JDK8로 설정되어 있어야 작동되고, [File] -> [import] 메뉴를 활용하여 프로젝트를 가져옵니다.
+![Eclipse Import](./movie/eclipse.gif)
+
+<br><br>
+
+12.4의 Springframework 프로젝트는 sts3(sts3.9.18)을 다운로드 받아야 하며, Java JDK11로 설정되어 있어야 작동되고, [File] -> [import] 메뉴를 활용하여 프로젝트를 가져옵니다.
+
+![Java11 Setting](./movie/java11.gif)
+
+![sts3 Import](./movie/sts3.gif)
+
+<br><br>
 
 12.5의 Spring Boot 프로젝트는 sts4(sts4-4.23.1)을 다운로드 받아야 하며, Java 17로 설정되어 있어야 작동되고, [File] -> [import] 메뉴를 활용하여 프로젝트를 가져옵니다.
 
-<br><br>
+![Java17 Setting](./movie/java17.gif)
+
+![sts4 Import](./movie/sts4.gif)
+
+<br><br><br>
 
 # 개발 환경 구축의 각 종 소프트웨어
 
@@ -42,6 +56,9 @@ Node, jsp/Servlet, Springframework, Spring Boot, FastAPI 등의 프로젝트 경
 
 ### Zulu OpenJDK JDK17 다운로드: 
 [https://www.azul.com/downloads/?version=java-17-lts&os=windows&architecture=x86-64-bit&package=jdk#zulu](https://www.azul.com/downloads/?version=java-17-lts&os=windows&architecture=x86-64-bit&package=jdk#zulu)
+
+### Zulu OpenJDK JDK11 다운로드:
+[https://www.azul.com/downloads/?version=java-11-lts&os=windows&architecture=x86-64-bit&package=jdk#zulu](https://www.azul.com/downloads/?version=java-11-lts&os=windows&architecture=x86-64-bit&package=jdk#zulu)
 
 ### Python 3.12.1 다운로드: 
 [https://www.python.org/downloads/release/python-3121/](https://www.python.org/downloads/release/python-3121/)
