@@ -65,7 +65,6 @@ INDEX VERSION 1.134+D:\gitRepository\kitaedev365\vuejs3\ch10\backend1\.metadata\
 2835366827.index
 1975683752.index
 1852261716.index
-2454410285.index
 3516107553.index
 3466276241.index
 4127834752.index

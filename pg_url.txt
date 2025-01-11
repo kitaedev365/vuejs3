@@ -1,0 +1,17 @@
+Node 20.11 다운로드: https://nodejs.org/ko/blog/release/v20.11.1
+
+Visual Studio Code 다운로드: https://code.visualstudio.com/download
+
+MariaDB 10.11 다운로드: https://mariadb.org/download/?t=mariadb&p=mariadb&r=10.11.10&os=windows&cpu=x86_64&pkg=msi&mirror=blendbyte
+
+Zulu OpenJDK JDK17 다운로드: https://www.azul.com/downloads/?version=java-17-lts&os=windows&architecture=x86-64-bit&package=jdk#zulu
+
+Python 3.12.1 다운로드: https://www.python.org/downloads/release/python-3121/
+
+Eclipse 2023-12 IDE for Enterprise Java and Web Developers 다운로드: https://www.eclipse.org/downloads/packages/release/2023-12/r/eclipse-ide-enterprise-java-and-web-developers
+
+STS3 3.9.18 다운로드: https://github.com/spring-attic/toolsuite-distribution/wiki/Spring-Tool-Suite-3
+
+STS4 4.23.1 다운로드: https://github.com/spring-projects/sts4/wiki/Previous-Versions
+
+PyCharm 다운로드: https://www.jetbrains.com/ko-kr/pycharm/download/?section=windows
